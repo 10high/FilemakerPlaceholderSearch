@@ -1,0 +1,35 @@
+.header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    background-color: black;
+}
+
+.headerWrapper {
+    min-width: 958px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.placeholderNameHeader {
+    font-size: 20px;
+    color: white;
+}
+
+.placeholderNameBody {
+    font-size: 20px;
+    color: black;
+}
+
+.pageHeader {
+    font-size: 24px;
+    color: white;
+}
+
+.placeholderFilepath {
+    font-size: 16px;
+    color: white;
+}
