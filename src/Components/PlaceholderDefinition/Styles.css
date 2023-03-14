@@ -1,0 +1,27 @@
+.section {
+    width: 440px
+}
+
+.section__headerWrapper {
+    padding: 8px;
+    background-color: var(--header-background-color);
+    border-radius: 8px;
+}
+
+.section__header {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-font-color);
+}
+
+.section__bodyWrapper {
+    padding: 16px;
+    ;
+    border-radius: 8px;
+}
+
+.section__bodyText {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--primary-font-color);
+}
