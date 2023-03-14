@@ -1,0 +1,41 @@
+.form {
+    width: 1125px;
+    display: flex;
+}
+
+.searchWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.searchInputWrapper {
+    width: 141px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: var(--header-background-color);
+}
+
+.searchInput {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.button {
+    width: 120px;
+    height: 43px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--secondary-font-color);
+    background-color: var(--interactive-color);
+}
+
+.textArea {
+    width: 976px;
+    height: 133px;
+    border: solid 4px black;
+
+}
