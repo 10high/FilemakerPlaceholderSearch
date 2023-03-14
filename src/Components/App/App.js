@@ -1,1 +1,1 @@
-
+import "../customproperties.css";
