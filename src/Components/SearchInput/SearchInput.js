@@ -6,7 +6,7 @@ export class SearchInput extends React.Component {
         super(props);
         this.state = { value: 'Paste your string here' };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        //this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
@@ -14,19 +14,21 @@ export class SearchInput extends React.Component {
         //This handles storing/processing the string
     }
 
-    /* handleSubmit(event) {
-      
-      event.preventDefault();
-    } */
-
     render() {
         return (
-            <form className={Styles.form} onSubmit={this.handleSubmit}>
+            <form className={Styles.form}>
                 <div className={Styles.searchWrapper}>
-                    <div className={Styles.searchInputWrapper}><label className={Styles.searchInput} for="searchInput"> Search Input</label></div>
-                    <button className={Styles.button} type="button">Clear</button>
+                    <div className={Styles.searchInputWrapper}>
+                        <h2 className={Styles.searchInput}> Search Input</h2>
+                        <button className={Styles.button} type="button">Clear</button>
+                    </div>
+                    <textarea
+                        className={Styles.textArea}
+                        name="searchInput"
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                    />
                 </div>
-                <textarea className={Styles.textArea} name="searchInput" value={this.state.value} onChange={this.handleChange} />
             </form>
         );
     }
