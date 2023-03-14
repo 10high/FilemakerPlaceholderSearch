@@ -1,0 +1,17 @@
+.table {
+    min-width: 1128px;
+    max-width: 1336px;
+}
+
+.table__header {
+    color: var(--primary-font-color);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.table__row {
+    color: var(--primary-font-color);
+    font-size: 0.75rem;
+    font-weight: 400;
+
+}
