@@ -4,7 +4,7 @@ import Styles from "./ResultsList.module.css";
 export default class ResultsList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { tableData: {} };
+        this.state = { tableData: { bg_random: { lockey: "lockkey", german: "German", english: "EN", filename: "filename" } } };
     };
 
     render() {
@@ -20,14 +20,14 @@ export default class ResultsList extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((val, key) => (
-                        <tr className={Styles.table__row} key={key}>
-                            <th scope="row">{val.lockey/* change key to actual used!! */}</th>
-                            <td headers="german text">{val.german /* change key to actual used!! */}</td>
-                            <td headers="english text">{val.english/* change key to actual used!! */}</td>
-                            <td headers="english filename">{val.filenam/* change key to actual used!! */}</td>
+                    {
+                        <tr className={Styles.table__row}>
+                            <th scope="row">{data.bg_random.lockey/* change key to actual used!! */}</th>
+                            <td headers="german text">{data.bg_random.german /* change key to actual used!! */}</td>
+                            <td headers="english text">{data.bg_random.english/* change key to actual used!! */}</td>
+                            <td headers="english filename">{data.bg_random.filename/* change key to actual used!! */}</td>
                         </tr>
-                    ))}
+                    }
                 </tbody>
             </table>
         )

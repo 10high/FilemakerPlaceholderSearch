@@ -5,13 +5,14 @@
     align-items: flex-start;
     gap: 16px;
     background-color: black;
+    padding: 12px 0;
 }
 
 .headerWrapper {
     min-width: 958px;
     display: flex;
     justify-content: space-between;
-
+    margin: 0 0 0 14px;
 }
 
 .placeholderNameHeader {
@@ -21,7 +22,10 @@
 
 .placeholderNameBody {
     font-size: 20px;
+    padding: 4px 8px;
+    border-radius: 8px;
     color: black;
+    background-color: white;
 }
 
 .pageHeader {
@@ -32,4 +36,5 @@
 .placeholderFilepath {
     font-size: 16px;
     color: white;
+    margin: 0 0 0 14px;
 }

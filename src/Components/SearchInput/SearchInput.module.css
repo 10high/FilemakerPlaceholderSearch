@@ -1,27 +1,30 @@
 .form {
     width: 1125px;
-    display: flex;
 }
 
 .searchWrapper {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 .searchInputWrapper {
     width: 141px;
     height: 32px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    background-color: var(--header-background-color);
+    flex-direction: column;
+    align-items: flex-end;
 }
 
+
 .searchInput {
+    width: 141px;
+    text-align: center;
     font-size: 20px;
     font-weight: 700;
+    background-color: var(--header-background-color);
+    padding: 8px;
+    border-radius: 8px;
 }
 
 .button {
@@ -31,11 +34,14 @@
     font-weight: 700;
     color: var(--secondary-font-color);
     background-color: var(--interactive-color);
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .textArea {
     width: 976px;
     height: 133px;
     border: solid 4px black;
+    border-radius: 8px;
 
 }
