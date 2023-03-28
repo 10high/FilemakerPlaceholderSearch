@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./Styles.module.css";
 
-export class SearchInput extends React.Component {
+export default class SearchInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = { value: 'Paste your string here' };

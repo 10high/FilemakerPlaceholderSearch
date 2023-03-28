@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.module.css";
 
-export class Header extends React.Component {
+export default class Header extends React.Component {
     render() {
         return (
 

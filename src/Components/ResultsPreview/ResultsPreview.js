@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./Styles.module.css";
 
-export class ResultsPreview extends React.Component {
+export default class ResultsPreview extends React.Component {
     constructor(props) {
         super(props);
         this.state = { previewText: "Your preview will be displayed here" }

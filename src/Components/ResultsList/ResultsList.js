@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./Styles.module.css";
 
-export class ResultsList extends React.Component {
+export default class ResultsList extends React.Component {
     constructor(props) {
         super(props);
         this.state = { tableData: {} };

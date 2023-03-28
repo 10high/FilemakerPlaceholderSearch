@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./Styles.module.css";
 
-export class PlaceholderDefinition extends React.Component {
+export default class PlaceholderDefinition extends React.Component {
     render() {
         return (
             <section className={Styles.section}>

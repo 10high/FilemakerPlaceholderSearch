@@ -9,7 +9,7 @@ import PlaceholderDefinition from "../PlaceholderDefinition/PlaceholderDefinitio
 import Styles from "./Styles.modules.css";
 import "../customproperties.css";
 
-export class App extends React.Component {
+export default class App extends React.Component {
     render() {
         return (
             <div className={Styles.app__container}>

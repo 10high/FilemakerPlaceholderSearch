@@ -2,7 +2,7 @@ import React from "react";
 
 import Styles from "./Styles.module.css";
 
-export class PlaceholderSearch extends React.Component {
+export default class PlaceholderSearch extends React.Component {
     render() {
         return (
             <section className={Styles.section}>

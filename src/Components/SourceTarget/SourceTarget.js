@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./Styles.module.css";
 
-export class SourceTarget extends React.Component {
+export default class SourceTarget extends React.Component {
     constructor(props) {
         super(props);
         this.state = { selectedOption: "source" };
