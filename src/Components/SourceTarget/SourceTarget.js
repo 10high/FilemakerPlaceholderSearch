@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from "./Styles.module.css";
+import Styles from "./SourceTarget.module.css";
 
 export default class SourceTarget extends React.Component {
     constructor(props) {

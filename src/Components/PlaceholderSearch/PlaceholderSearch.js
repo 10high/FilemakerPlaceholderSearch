@@ -1,6 +1,5 @@
 import React from "react";
-
-import Styles from "./Styles.module.css";
+import Styles from "./PlaceholderSearch.module.css";
 
 export default class PlaceholderSearch extends React.Component {
     render() {

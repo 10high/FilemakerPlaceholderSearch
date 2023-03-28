@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from "./Styles.module.css";
+import Styles from "./PlaceholderDefinition.module.css";
 
 export default class PlaceholderDefinition extends React.Component {
     render() {

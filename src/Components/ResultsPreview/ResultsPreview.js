@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from "./Styles.module.css";
+import Styles from "./ResultsPreview.module.css";
 
 export default class ResultsPreview extends React.Component {
     constructor(props) {

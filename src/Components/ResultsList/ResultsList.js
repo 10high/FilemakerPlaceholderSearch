@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from "./Styles.module.css";
+import Styles from "./ResultsList.module.css";
 
 export default class ResultsList extends React.Component {
     constructor(props) {
