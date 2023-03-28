@@ -6,20 +6,21 @@ import PlaceholderSearch from "../PlaceholderSearch/PlaceholderSearch";
 import ResultsList from "../ResultsList/ResultsList";
 import ResultsPreview from "../ResultsPreview/ResultsPreview";
 import PlaceholderDefinition from "../PlaceholderDefinition/PlaceholderDefinition";
+import Styles from "./Styles.modules.css";
 import "../customproperties.css";
 
 export class App extends React.Component {
     render() {
         return (
-            <div>
+            <div className={Styles.app__container}>
                 <Header />
-                <main>
-                    <div>
+                <main className={Styles.app__main}>
+                    <div className={Styles.searchInput__container}>
                         <SearchInput />
                         <SourceTarget />
                     </div>
-                    <div>
-                        <div>
+                    <div className={Styles.searchResults__container}>
+                        <div className={Styles.searchResults__placeholderSearchWrapper}>
                             <PlaceholderSearch />
                             <PlaceholderSearch />
                             <PlaceholderSearch />

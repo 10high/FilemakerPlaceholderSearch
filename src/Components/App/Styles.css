@@ -1,0 +1,24 @@
+.app__container {
+    display: flex;
+    flex-direction: column;
+}
+
+.app__main {
+    display: grid;
+    grid-auto-flow: row;
+}
+
+.searchInput__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.searchResults__container {
+    display: flex;
+    flex-direction: column;
+}
+
+.searchResults__placeholderSearchWrapper {
+    display: flex;
+}
