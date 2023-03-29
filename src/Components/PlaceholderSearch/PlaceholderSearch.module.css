@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 24px 0 0 0;
 }
 
 .section__headerWrapper {
@@ -20,21 +21,26 @@
     font-weight: 700;
 }
 
-.placeholderWrapper {
-    width: 216px;
-    height: 40px;
-    border: 2px solid black;
+.section__placeholderWrapper {
+    width: 184px;
+    height: 24px;
+    border: solid 2px black;
     border-radius: 8px;
+    margin: 8px 0 0 0;
+    padding: 8px;
 }
 
 .section__placeholderText {
+    font-family: Inter;
     font-size: 0.75rem;
-    columns: var(--primary-font-color);
+    color: var(--primary-font-color);
+    margin: 0;
 }
 
 .section__button {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
+    margin: 8px 0 0 0;
     background-color: var(--interactive-color);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 8px;

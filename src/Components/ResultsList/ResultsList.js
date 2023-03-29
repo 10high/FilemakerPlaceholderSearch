@@ -19,6 +19,7 @@ export default class ResultsList extends React.Component {
                         <th scope="col">I_english:Filename</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {
                         <tr className={Styles.table__row}>
@@ -29,6 +30,7 @@ export default class ResultsList extends React.Component {
                         </tr>
                     }
                 </tbody>
+
             </table>
         )
     }

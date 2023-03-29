@@ -29,8 +29,19 @@ export default class App extends React.Component {
                         </div>
                         <ResultsList />
                     </div>
-                    <ResultsPreview />
-                    <PlaceholderDefinition />
+                    <div className={Styles.previewDefinitionWrapper}>
+
+                        <div className={Styles.resultsPreview}>
+                            <ResultsPreview />
+                        </div>
+                        <div className={Styles.placeholderDefinition}>
+                            <PlaceholderDefinition />
+                        </div>
+                    </div>
+                    <div className={Styles.placeholderDefinition2}>
+                        <PlaceholderDefinition />
+                    </div>
+
                 </main>
             </div>
         );

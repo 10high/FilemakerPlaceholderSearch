@@ -1,8 +1,10 @@
 .section {
-    width: 440px
+    width: 440px;
+    margin: 8px 0 0 0;
 }
 
 .section__headerWrapper {
+    display: inline-block;
     padding: 8px;
     background-color: var(--header-background-color);
     border-radius: 8px;
@@ -12,11 +14,13 @@
     font-size: 1rem;
     font-weight: 700;
     color: var(--primary-font-color);
+    margin: 0;
 }
 
 .section__bodyWrapper {
+    margin: 8px 0 0 0;
     padding: 16px;
-    ;
+    background-color: white;
     border-radius: 8px;
 }
 
@@ -24,4 +28,5 @@
     font-size: 1rem;
     font-weight: 400;
     color: var(--primary-font-color);
+    margin: 0;
 }

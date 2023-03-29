@@ -12,7 +12,7 @@ export default class ResultsPreview extends React.Component {
     render() {
         return (
             <div className={Styles.preview__Wrapper}>
-                <p>{this.state.previewText}</p>
+                <p className={Styles.preview__text}>{this.state.previewText}</p>
             </div>
         )
     }

@@ -1,17 +1,26 @@
 .table {
     min-width: 1128px;
     max-width: 1336px;
+    margin: 24px 0 0 0;
+    text-align: left;
+    text-indent: 4px;
+    border: 2px solid black;
+    border-radius: 8px;
 }
 
 .table__header {
     color: var(--primary-font-color);
     font-size: 1rem;
     font-weight: 700;
+    background-color: var(--header-background-color);
+}
+
+th {
+    padding: 4px;
 }
 
 .table__row {
     color: var(--primary-font-color);
     font-size: 0.75rem;
     font-weight: 400;
-
 }

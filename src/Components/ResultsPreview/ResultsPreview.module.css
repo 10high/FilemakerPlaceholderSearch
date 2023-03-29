@@ -1,9 +1,16 @@
 .preview__Wrapper {
-    min-width: 719px;
-    padding: 8px;
+    min-height: 88px;
+    background-color: white;
     border-radius: 8px;
+    margin: 8px 0 0 0;
+    padding: 8px;
 }
 
 .placeholders {
     color: var(--text-highlight-primary-color);
+}
+
+.preview__text {
+    font-size: 1rem;
+    margin: 0;
 }
