@@ -13,9 +13,11 @@ export default class App extends React.Component {
         super(props);
         this.state = {
             placeholders: ["", "", "", "", "", ""],
-            searchInputValue: "Paste your string here"
+            searchInputValue: "Paste your string here",
         }
         this.handleOnChange = this.handleOnChange.bind(this);
+        this.handleClearOnClick = this.handleClearOnClick.bind(this);
+        this.handleOnBlur = this.handleOnBlur.bind(this);
     }
 
     extractPlaceholders(input) {
@@ -30,13 +32,22 @@ export default class App extends React.Component {
 
     handleOnChange(event) {
         const updatePlaceholders = this.extractPlaceholders(event.target.value);
-
         this.setState(
             {
                 searchInputValue: event.target.value,
                 placeholders: updatePlaceholders
             }
         )
+    }
+    handleOnBlur(event) {
+        //this will be used to send server request
+    }
+
+    handleClearOnClick() {
+        this.setState({
+            searchInputValue: "Paste your string here",
+            placeholders: ["", "", "", "", "", ""]
+        })
     }
 
     render() {
@@ -46,6 +57,7 @@ export default class App extends React.Component {
                 <main className={Styles.app__main}>
                     <div className={Styles.searchInput__container}>
                         <SearchInput
+                            onClick={this.handleClearOnClick}
                             value={this.state.searchInputValue}
                             onChange={this.handleOnChange}
                         />

@@ -9,13 +9,17 @@ export default class SearchInput extends React.Component {
                 <div className={Styles.searchWrapper}>
                     <div className={Styles.searchInputWrapper}>
                         <h2 className={Styles.searchInput}>Search Input</h2>
-                        <button className={Styles.button} type="button">Clear</button>
+                        <button className={Styles.button}
+                            type="button"
+                            onClick={this.props.onClick}>
+                            Clear
+                        </button>
                     </div>
                     <textarea
                         className={Styles.textArea}
                         name="searchInput"
-                        defaultValue={this.props.value}
-                        onBlur={this.props.onChange}
+                        value={this.props.value}
+                        onChange={this.props.onChange}
                     />
                 </div>
             </form>
