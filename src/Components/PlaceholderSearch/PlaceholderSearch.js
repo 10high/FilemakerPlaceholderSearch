@@ -9,7 +9,7 @@ export default class PlaceholderSearch extends React.Component {
                     <h2 className={Styles.section__header}>Placeholder {this.props.number}</h2>
                 </div>
                 <div className={Styles.section__placeholderWrapper}>
-                    <p className={Styles.section__placeholderText}>placeholdersearchdummy{this.props.placeholder}</p>
+                    <p className={Styles.section__placeholderText}>{this.props.placeholder}</p>
                 </div>
                 <button className={Styles.section__button} type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="#FFF" viewBox="0 0 16 16">

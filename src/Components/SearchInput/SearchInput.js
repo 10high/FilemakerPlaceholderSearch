@@ -2,17 +2,6 @@ import React from "react";
 import Styles from "./SearchInput.module.css";
 
 export default class SearchInput extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { value: 'Paste your string here' };
-        this.handleChange = this.handleChange.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-        //This handles storing/processing the string
-    }
 
     render() {
         return (
@@ -25,8 +14,8 @@ export default class SearchInput extends React.Component {
                     <textarea
                         className={Styles.textArea}
                         name="searchInput"
-                        value={this.state.value}
-                        onChange={this.handleChange}
+                        defaultValue={this.props.value}
+                        onBlur={this.props.onChange}
                     />
                 </div>
             </form>
