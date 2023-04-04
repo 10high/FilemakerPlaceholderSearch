@@ -45,3 +45,7 @@
     padding: 8px;
 
 }
+
+.outerPlaceholderHighlight {
+    color: var(--text-highlight-secondary-color);
+}

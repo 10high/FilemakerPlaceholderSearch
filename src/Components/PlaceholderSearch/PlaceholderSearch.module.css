@@ -30,11 +30,20 @@
     padding: 8px;
 }
 
-.section__placeholderText {
+.section__placeholderText__notSelected {
     font-family: Inter;
     font-size: 0.75rem;
     color: var(--primary-font-color);
     margin: 0;
+}
+
+.section__placeholderText__selected {
+    font-family: Inter;
+    font-size: 0.75rem;
+    color: var(--text-highlight-primary-color);
+    font-weight: 700;
+    margin: 0;
+
 }
 
 .section__button {
