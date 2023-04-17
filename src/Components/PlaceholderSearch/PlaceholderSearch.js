@@ -14,7 +14,7 @@ export default class PlaceholderSearch extends React.Component {
     }
 
     handleButtonOnClick() {
-        this.props.updateplaceholdersearchvalue(parseInt(this.props.number));
+        this.props.updateplaceholdersearchvalue(parseInt(this.props.number), this.props.recordid);
     }
 
     render() {

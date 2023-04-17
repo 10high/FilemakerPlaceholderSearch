@@ -14,7 +14,9 @@ export default class App extends React.Component {
         this.state = {
             placeholders: [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]],
             searchInputValue: "Paste your string here",
-            isSelected: [false, false, false, false, false, false,]
+            isSelected: [false, false, false, false, false, false,],
+            placeholderRecordIds: [0, 0, 0, 0, 0, 0],
+            recordData: {}
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
@@ -47,9 +49,6 @@ export default class App extends React.Component {
             }
         )
     }
-    handleOnBlur(event) {
-        //this will be used to send server request
-    }
 
     handleClearOnClick() {
         this.setState({
@@ -58,7 +57,103 @@ export default class App extends React.Component {
         })
     }
 
-    updateplaceholdersearchvalue(value) {
+    getUsername() {
+        let username = prompt("Please enter your username:");
+        this.setState({
+            username: username
+        })
+        return username;
+    }
+
+    getPassword() {
+        let password = prompt("Please enter your password:");
+        this.setState({
+            password: password
+        })
+        return password;
+    }
+
+    async fetchSetGlobalField() {
+        let username = this.state.username;
+        if (!username) {
+            username = this.getUsername()
+        }
+        let password = this.state.password;
+        if (!password) {
+            password = this.getPassword()
+        }
+        const searchInput = encodeURIComponent(this.state.searchInputValue)
+        fetch("../../build/php/setGlobalField.php?url=nativeprime-fm.dyndns.org", {
+            headers: {
+                "User": username,
+                "Password": password,
+                "SearchInput": searchInput
+            }
+        })
+            .then(response => response.json())
+
+            .catch(error => {
+                console.error(error);
+                this.setState({
+                    username: "",
+                    password: ""
+                })
+                alert("Something went wrong!\n\nPerhaps you entered your username or password incorrectly.\nPlease check and enter them again when prompted.\n\nIf the problem persists, please contact Friedrich.")
+            });
+    }
+
+    async fetchRunScript(placeholderNumber) {
+        return fetch("../../build/php/runScript.php?url=nativeprime-fm.dyndns.org", {
+            headers: {
+                "User": this.state.username,
+                "Password": this.state.password,
+                "PlaceholderNumber": placeholderNumber
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                return data.response.response.scriptResult;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    async handleOnBlur() {
+        await this.fetchSetGlobalField()
+        const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
+        const testRecord = await this.fetchRunScript(placeholderNumbers[0]);
+        console.log("This is from handleOnBlur", testRecord)
+
+        /* const updatedPlaceholderRecordIDs = await Promise.allSettled(
+            placeholderNumbers.map(async number => await this.fetchRunScript(number))
+        )
+        this.setState({
+            placeholderRecordIds: updatedPlaceholderRecordIDs
+        })
+        console.log(this.state.placeholderRecordIds) */
+    }
+
+    async fetchGetRecord(recordID) {
+        fetch("../../build/php/getRecord.php?url=nativeprime-fm.dyndns.org", {
+            headers: {
+                "User": this.state.username,
+                "Password": this.state.password,
+                "RecordID": recordID
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    recordData: data
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    async updateplaceholdersearchvalue(number, recordID) {
         /* const placeholderSearchValue = this.state.placeholders[value - 1];
          let updatedSearchInputValue = this.state.searchInputValue;
          const outerPlaceholderRegEx = new RegExp(`${placeholderSearchValue[0]}`);
@@ -66,18 +161,19 @@ export default class App extends React.Component {
          this.setState({
              searchInputValue: updatedSearchInputValue
          }) */
-
         //This is for highlighting the searched placeholder in the text area
         //But this is not possible in textarea and requires faking it
+
         const updatedIsSelected = [];
         for (let i = 0; i < 6; i++) {
-            if (i === value - 1) {
+            if (i === number - 1) {
                 updatedIsSelected[i] = true;
             } else {
                 updatedIsSelected[i] = false;
             }
         }
-        this.setState({ isSelected: updatedIsSelected })
+        this.setState({ isSelected: updatedIsSelected });
+        //await this.fetchGetRecord(recordID);
     }
 
 
@@ -92,6 +188,7 @@ export default class App extends React.Component {
                             value={this.state.searchInputValue}
                             onChange={this.handleOnChange}
                             placeholdersearchvalue={this.state.placeholderSearchValue}
+                            onBlur={this.handleOnBlur}
                         />
                         <SourceTarget />
                     </div>
@@ -101,32 +198,38 @@ export default class App extends React.Component {
                                 number="1"
                                 placeholder={this.state.placeholders[0][1]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
-                                isselected={this.state.isSelected[0]} />
+                                isselected={this.state.isSelected[0]}
+                                recordid={this.state.placeholderRecordIds[0]} />
                             <PlaceholderSearch
                                 number="2"
                                 placeholder={this.state.placeholders[1][1]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
-                                isselected={this.state.isSelected[1]} />
+                                isselected={this.state.isSelected[1]}
+                                recordid={this.state.placeholderRecordIds[1]} />
                             <PlaceholderSearch
                                 number="3"
                                 placeholder={this.state.placeholders[2][1]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
-                                isselected={this.state.isSelected[2]} />
+                                isselected={this.state.isSelected[2]}
+                                recordid={this.state.placeholderRecordIds[2]} />
                             <PlaceholderSearch
                                 number="4"
                                 placeholder={this.state.placeholders[3][1]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
-                                isselected={this.state.isSelected[3]} />
+                                isselected={this.state.isSelected[3]}
+                                recordid={this.state.placeholderRecordIds[3]} />
                             <PlaceholderSearch
                                 number="5"
                                 placeholder={this.state.placeholders[4][1]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
-                                isselected={this.state.isSelected[4]} />
+                                isselected={this.state.isSelected[4]}
+                                recordid={this.state.placeholderRecordIds[4]} />
                             <PlaceholderSearch
                                 number="6"
                                 placeholder={this.state.placeholders[5][1]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
-                                isselected={this.state.isSelected[5]} />
+                                isselected={this.state.isSelected[5]}
+                                recordid={this.state.placeholderRecordIds[5]} />
                         </div>
                         <ResultsList />
                     </div>

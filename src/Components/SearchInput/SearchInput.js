@@ -21,6 +21,7 @@ export default class SearchInput extends React.Component {
                         value={this.props.value}
                         onChange={this.props.onChange}
                         placeholdersearchvalue={this.props.placeholdersearchvalue}
+                        onBlur={this.props.onBlur}
                     />
                 </div>
             </form>
