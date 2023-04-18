@@ -1,5 +1,5 @@
 .form__wrapper {
-    width: 600px;
+    width: auto;
     height: 41px;
     display: flex;
     justify-content: center;
@@ -7,7 +7,7 @@
     gap: 24px;
     background-color: var(--header-background-color);
     border-radius: 8px;
-    padding: 0;
+    padding: 0 8px;
     margin: 0;
 }
 
