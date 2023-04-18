@@ -122,16 +122,13 @@ export default class App extends React.Component {
     async handleOnBlur() {
         await this.fetchSetGlobalField()
         const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
-        const testRecord = await this.fetchRunScript(placeholderNumbers[0]);
-        console.log("This is from handleOnBlur", testRecord)
-
-        /* const updatedPlaceholderRecordIDs = await Promise.allSettled(
+        const fetchPlaceholderRecordIDs = await Promise.allSettled(
             placeholderNumbers.map(async number => await this.fetchRunScript(number))
         )
+        const updatedPlaceholderRecordIDs = fetchPlaceholderRecordIDs.map(item => item.value);
         this.setState({
             placeholderRecordIds: updatedPlaceholderRecordIDs
         })
-        console.log(this.state.placeholderRecordIds) */
     }
 
     async fetchGetRecord(recordID) {
@@ -145,7 +142,7 @@ export default class App extends React.Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({
-                    recordData: data
+                    recordData: data.response.response
                 })
             })
             .catch(error => {
@@ -173,7 +170,8 @@ export default class App extends React.Component {
             }
         }
         this.setState({ isSelected: updatedIsSelected });
-        //await this.fetchGetRecord(recordID);
+        await this.fetchGetRecord(recordID);
+        console.log(this.state.recordData)
     }
 
 
