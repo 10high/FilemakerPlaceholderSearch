@@ -54,7 +54,9 @@ export default class App extends React.Component {
     handleClearOnClick() {
         this.setState({
             searchInputValue: "Paste your string here",
-            placeholders: ["", "", "", "", "", ""]
+            placeholders: ["", "", "", "", "", ""],
+            placeholderRecordIds: [0, 0, 0, 0, 0, 0],
+            placeholderDefinition: ""
         })
     }
 
