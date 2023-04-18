@@ -2,14 +2,24 @@ import React from "react";
 import Styles from "./ResultsList.module.css";
 
 export default class ResultsList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { tableData: { bg_random: { lockey: "lockkey", german: "German", english: "EN", filename: "filename" } } };
-    };
+
+    manageTableData() {
+        let tableData = this.props.tableData;
+        if (tableData.length < 1) {
+            tableData = [{
+                "placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER::LocKey": "",
+                "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_german: New Text": "",
+                "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: New Text": "",
+                "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: Filename": ""
+            }]
+        }
+        return tableData;
+    }
 
     render() {
-        const data = this.state.tableData;
+        const data = this.manageTableData();
         return (
+
             <table className={Styles.table}>
                 <thead className={Styles.table__header}>
                     <tr>
@@ -19,19 +29,28 @@ export default class ResultsList extends React.Component {
                         <th scope="col">I_english:Filename</th>
                     </tr>
                 </thead>
-
-                <tbody>
-                    {
-                        <tr className={Styles.table__row}>
-                            <th scope="row">{data.bg_random.lockey/* change key to actual used!! */}</th>
-                            <td headers="german text">{data.bg_random.german /* change key to actual used!! */}</td>
-                            <td headers="english text">{data.bg_random.english/* change key to actual used!! */}</td>
-                            <td headers="english filename">{data.bg_random.filename/* change key to actual used!! */}</td>
-                        </tr>
-                    }
-                </tbody>
-
+                <div className={Styles.table__container}>
+                    <tbody>
+                        {data.map((item, index) => (
+                            <tr className={Styles.table__row} key={index}>
+                                <th scope="row">{item["placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER::LocKey"]}</th>
+                                <td headers="german text">{item["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_german: New Text"]}</td>
+                                <td headers="english text">{item["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: New Text"]}</td>
+                                <td headers="english filename">{item["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: Filename"]}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </div>
             </table>
         )
     }
 }
+
+/* {
+                        <tr className={Styles.table__row}>
+                            <th scope="row">{data[0]["placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER::LocKey"]}</th>
+                            <td headers="german text">{data[0]["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_german: New Text"]}</td>
+                            <td headers="english text">{data[0]["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: New Text"]}</td>
+                            <td headers="english filename">{data[0]["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: Filename"]}</td>
+                        </tr>
+                    } */

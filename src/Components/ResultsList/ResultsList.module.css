@@ -1,3 +1,9 @@
+.table__container {
+    min-height: 200px;
+    max-height: 418px;
+    overflow: auto;
+}
+
 .table {
     min-width: 1128px;
     max-width: 1336px;

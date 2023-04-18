@@ -17,7 +17,8 @@ export default class App extends React.Component {
             isSelected: [false, false, false, false, false, false,],
             placeholderRecordIds: [0, 0, 0, 0, 0, 0],
             placeholderName: "",
-            placeholderDefinition: ""
+            placeholderDefinition: "",
+            tableData: []
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
@@ -56,7 +57,8 @@ export default class App extends React.Component {
             searchInputValue: "Paste your string here",
             placeholders: ["", "", "", "", "", ""],
             placeholderRecordIds: [0, 0, 0, 0, 0, 0],
-            placeholderDefinition: ""
+            placeholderDefinition: "",
+            isSelected: [false, false, false, false, false, false,]
         })
     }
 
@@ -176,11 +178,12 @@ export default class App extends React.Component {
         const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
         const placeholderDefinition = recordData.data[0].fieldData.Placeholder_Definition_view;
         const formattedDefinition = placeholderDefinition.replace(/\n/g, '<br>');
-        console.log(formattedDefinition);
+        const tableData = recordData.data[0].portalData.placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER;
         this.setState({
             isSelected: updatedIsSelected,
             placeholderName: placeholderName,
-            placeholderDefinition: formattedDefinition
+            placeholderDefinition: formattedDefinition,
+            tableData: tableData
         });
     }
 
@@ -240,7 +243,8 @@ export default class App extends React.Component {
                                 isselected={this.state.isSelected[5]}
                                 recordid={this.state.placeholderRecordIds[5]} />
                         </div>
-                        <ResultsList />
+                        <ResultsList
+                            tableData={this.state.tableData} />
                     </div>
                     <div className={Styles.previewDefinitionWrapper}>
 
