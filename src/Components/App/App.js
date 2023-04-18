@@ -173,10 +173,12 @@ export default class App extends React.Component {
         console.log(recordData);
         const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
         const placeholderDefinition = recordData.data[0].fieldData.Placeholder_Definition_view;
+        const formattedDefinition = placeholderDefinition.replace(/\n/g, '<br>');
+        console.log(formattedDefinition);
         this.setState({
             isSelected: updatedIsSelected,
             placeholderName: placeholderName,
-            placeholderDefinition: placeholderDefinition
+            placeholderDefinition: formattedDefinition
         });
     }
 
@@ -244,11 +246,13 @@ export default class App extends React.Component {
                             <ResultsPreview />
                         </div>
                         <div className={Styles.placeholderDefinition}>
-                            <PlaceholderDefinition />
+                            <PlaceholderDefinition
+                                placeholderDefinition={this.state.placeholderDefinition} />
                         </div>
                     </div>
                     <div className={Styles.placeholderDefinition2}>
-                        <PlaceholderDefinition />
+                        <PlaceholderDefinition
+                            placeholderDefinition={this.state.placeholderDefinition} />
                     </div>
 
                 </main>
