@@ -16,7 +16,8 @@ export default class App extends React.Component {
             searchInputValue: "Paste your string here",
             isSelected: [false, false, false, false, false, false,],
             placeholderRecordIds: [0, 0, 0, 0, 0, 0],
-            recordData: {}
+            placeholderName: "",
+            placeholderDefinition: ""
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
@@ -132,7 +133,7 @@ export default class App extends React.Component {
     }
 
     async fetchGetRecord(recordID) {
-        fetch("../../build/php/getRecord.php?url=nativeprime-fm.dyndns.org", {
+        return fetch("../../build/php/getRecord.php?url=nativeprime-fm.dyndns.org", {
             headers: {
                 "User": this.state.username,
                 "Password": this.state.password,
@@ -141,9 +142,7 @@ export default class App extends React.Component {
         })
             .then(response => response.json())
             .then(data => {
-                this.setState({
-                    recordData: data.response.response
-                })
+                return data.response.response
             })
             .catch(error => {
                 console.error(error);
@@ -169,16 +168,24 @@ export default class App extends React.Component {
                 updatedIsSelected[i] = false;
             }
         }
-        this.setState({ isSelected: updatedIsSelected });
-        await this.fetchGetRecord(recordID);
-        console.log(this.state.recordData)
+
+        const recordData = await this.fetchGetRecord(recordID);
+        console.log(recordData);
+        const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
+        const placeholderDefinition = recordData.data[0].fieldData.Placeholder_Definition_view;
+        this.setState({
+            isSelected: updatedIsSelected,
+            placeholderName: placeholderName,
+            placeholderDefinition: placeholderDefinition
+        });
     }
 
 
     render() {
         return (
             <div className={Styles.app__container}>
-                <Header />
+                <Header
+                    placeholdername={this.state.placeholderName} />
                 <main className={Styles.app__main}>
                     <div className={Styles.searchInput__container}>
                         <SearchInput
