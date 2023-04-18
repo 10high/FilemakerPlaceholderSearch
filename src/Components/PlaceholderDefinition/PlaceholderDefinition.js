@@ -10,7 +10,8 @@ export default class PlaceholderDefinition extends React.Component {
                 </div>
                 <div className={Styles.section__bodyWrapper}>
                     <div className={Styles.section__bodyText}
-                        dangerouslySetInnerHTML={{ __html: this.props.placeholderDefinition }}></div>
+                        dangerouslySetInnerHTML={{ __html: this.props.placeholderDefinition }}>
+                    </div>
                 </div>
             </section>
         )
