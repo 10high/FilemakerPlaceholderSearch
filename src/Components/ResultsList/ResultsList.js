@@ -19,18 +19,18 @@ export default class ResultsList extends React.Component {
     render() {
         const data = this.manageTableData();
         return (
+            <div className={Styles.table__container}>
+                <table className={Styles.table}>
+                    <thead className={Styles.table__header}>
+                        <tr>
+                            <th scope="col">Lockey</th>
+                            <th scope="col">I_german:New Text</th>
+                            <th scope="col">I_english: New Text</th>
+                            <th scope="col">I_english:Filename</th>
+                        </tr>
+                    </thead>
 
-            <table className={Styles.table}>
-                <thead className={Styles.table__header}>
-                    <tr>
-                        <th scope="col">Lockey</th>
-                        <th scope="col">I_german:New Text</th>
-                        <th scope="col">I_english: New Text</th>
-                        <th scope="col">I_english:Filename</th>
-                    </tr>
-                </thead>
-                <div className={Styles.table__container}>
-                    <tbody>
+                    <tbody className={Styles.table__body}>
                         {data.map((item, index) => (
                             <tr className={Styles.table__row} key={index}>
                                 <th scope="row">{item["placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER::LocKey"]}</th>
@@ -40,8 +40,8 @@ export default class ResultsList extends React.Component {
                             </tr>
                         ))}
                     </tbody>
-                </div>
-            </table>
+                </table>
+            </div>
         )
     }
 }
