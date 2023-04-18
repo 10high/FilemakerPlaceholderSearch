@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../Header/Header";
+import LanguageRadioButtons from "../LanguageRadioButtons/LanguageRadioButtons";
 import SearchInput from "../SearchInput/SearchInput";
 import SourceTarget from "../SourceTarget/SourceTarget";
 import PlaceholderSearch from "../PlaceholderSearch/PlaceholderSearch";
@@ -194,7 +195,10 @@ export default class App extends React.Component {
                             placeholdersearchvalue={this.state.placeholderSearchValue}
                             onBlur={this.handleOnBlur}
                         />
-                        <SourceTarget />
+                        <div className={Styles.radioButtons__container}>
+                            <LanguageRadioButtons />
+                            <SourceTarget />
+                        </div>
                     </div>
                     <div className={Styles.searchResults__container}>
                         <div className={Styles.searchResults__placeholderSearchWrapper}>

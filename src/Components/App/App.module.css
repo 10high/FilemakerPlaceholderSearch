@@ -24,6 +24,10 @@
     border-radius: 8px;
 }
 
+.radioButtons__container {
+    display: flex;
+}
+
 .searchResults__container {
     width: calc(100% - 48px);
     max-width: 1388px;
