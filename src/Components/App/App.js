@@ -154,15 +154,12 @@ export default class App extends React.Component {
     }
 
     async updateplaceholdersearchvalue(number, recordID) {
-        /* const placeholderSearchValue = this.state.placeholders[value - 1];
-         let updatedSearchInputValue = this.state.searchInputValue;
-         const outerPlaceholderRegEx = new RegExp(`${placeholderSearchValue[0]}`);
-         updatedSearchInputValue = updatedSearchInputValue.replace(outerPlaceholderRegEx, `<span className={Styles.outerPlaceholderHighlight}>${outerPlaceholderRegEx}</span>`)
-         this.setState({
-             searchInputValue: updatedSearchInputValue
-         }) */
-        //This is for highlighting the searched placeholder in the text area
-        //But this is not possible in textarea and requires faking it
+        const recordData = await this.fetchGetRecord(recordID);
+        console.log(recordData);
+        const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
+        const placeholderDefinition = recordData.data[0].fieldData.Placeholder_Definition_view;
+        const formattedDefinition = placeholderDefinition.replace(/\n/g, '<br>');
+        const tableData = recordData.data[0].portalData.placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER;
 
         const updatedIsSelected = [];
         for (let i = 0; i < 6; i++) {
@@ -173,12 +170,7 @@ export default class App extends React.Component {
             }
         }
 
-        const recordData = await this.fetchGetRecord(recordID);
-        console.log(recordData);
-        const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
-        const placeholderDefinition = recordData.data[0].fieldData.Placeholder_Definition_view;
-        const formattedDefinition = placeholderDefinition.replace(/\n/g, '<br>');
-        const tableData = recordData.data[0].portalData.placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER;
+
         this.setState({
             isSelected: updatedIsSelected,
             placeholderName: placeholderName,
