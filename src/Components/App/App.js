@@ -13,6 +13,7 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            allRecords: {},
             placeholders: [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]],
             searchInputValue: "Paste your string here",
             isSelected: [false, false, false, false, false, false,],
@@ -21,7 +22,8 @@ export default class App extends React.Component {
             placeholderDefinition: "",
             tableData: [],
             sourceTargetSelectedOption: "source",
-            languageButtonsSelectedOption: "German"
+            languageButtonsSelectedOption: "German",
+            previewText: "Your preview text will be displayed here"
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
@@ -103,14 +105,34 @@ export default class App extends React.Component {
         return credentials
     }
 
-    async fetchSetAllGlobalFields() {
+    async fetchSetSearchGlobalField() {
         const credentials = this.checkCredentials();
         const searchInput = encodeURIComponent(this.state.searchInputValue)
-        fetch("../../build/php/setAllGlobalFields.php?url=nativeprime-fm.dyndns.org", {
+        fetch("../../build/php/setSearchGlobalField.php?url=nativeprime-fm.dyndns.org", {
             headers: {
                 "User": credentials[0],
                 "Password": credentials[1],
-                "SearchInput": searchInput,
+                "SearchInput": searchInput
+            }
+        })
+            .then(response => response.json())
+
+            .catch(error => {
+                console.error(error);
+                this.setState({
+                    username: "",
+                    password: ""
+                })
+                alert("Something went wrong!\n\nPerhaps you entered your username or password incorrectly.\nPlease check and enter them again when prompted.\n\nIf the problem persists, please contact Friedrich.")
+            });
+    }
+
+    async fetchSetLanguageGlobalFields() {
+        const credentials = this.checkCredentials();
+        fetch("../../build/php/setLanguageGlobalFields.php?url=nativeprime-fm.dyndns.org", {
+            headers: {
+                "User": credentials[0],
+                "Password": credentials[1],
                 "SourceTarget": this.state.sourceTargetSelectedOption,
                 "Language": this.state.languageButtonsSelectedOption
             }
@@ -127,11 +149,12 @@ export default class App extends React.Component {
             });
     }
 
-    async fetchRunScript(placeholderNumber) {
+    async fetchRunScript(scriptname, placeholderNumber) {
         return fetch("../../build/php/runScript.php?url=nativeprime-fm.dyndns.org", {
             headers: {
                 "User": this.state.username,
                 "Password": this.state.password,
+                "ScriptName": scriptname,
                 "PlaceholderNumber": placeholderNumber
             }
         })
@@ -142,18 +165,6 @@ export default class App extends React.Component {
             .catch(error => {
                 console.error(error);
             });
-    }
-
-    async handleOnBlur() {
-        await this.fetchSetAllGlobalFields()
-        const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
-        const fetchPlaceholderRecordIDs = await Promise.allSettled(
-            placeholderNumbers.map(async number => await this.fetchRunScript(number))
-        )
-        const updatedPlaceholderRecordIDs = fetchPlaceholderRecordIDs.map(item => item.value);
-        this.setState({
-            placeholderRecordIds: updatedPlaceholderRecordIDs
-        })
     }
 
     async fetchGetRecord(recordID) {
@@ -173,13 +184,56 @@ export default class App extends React.Component {
             });
     }
 
+    async handleOnBlur() {
+        await this.fetchSetSearchGlobalField();
+
+        const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
+        const fetchPlaceholderRecordIDs = await Promise.allSettled(
+            placeholderNumbers.map(async number => await this.fetchRunScript("Search For extracted Placeholder", number))
+        )
+        const updatedPlaceholderRecordIDs = fetchPlaceholderRecordIDs.map(item => item.value);
+        console.log("updatedPLaceholderRecordIDs: ", updatedPlaceholderRecordIDs);
+
+        await this.fetchRunScript("DecodeSearchInputFromURL");
+
+        await this.fetchSetLanguageGlobalFields();
+
+        const fetchAllRecords = await Promise.allSettled(
+            updatedPlaceholderRecordIDs.map(async recordId => await this.fetchGetRecord(recordId))
+        )
+        const allRecordsAsArray = fetchAllRecords.map(item => item.value);
+        const allRecordsAsObject = {};
+        allRecordsAsArray.forEach(item => {
+            allRecordsAsObject[item.data[0].recordId] = item;
+        });
+        console.log(allRecordsAsObject);
+
+
+        this.setState({
+            allRecords: allRecordsAsObject,
+            placeholderRecordIds: updatedPlaceholderRecordIDs,
+            previewText: "Your preview will be displayed here",
+            placeholderDefinition: "",
+            placeholderName: "",
+            tableData: [],
+            isSelected: [false, false, false, false, false, false,]
+        })
+    }
+
+
+
     async updateplaceholdersearchvalue(number, recordID) {
-        const recordData = await this.fetchGetRecord(recordID);
-        console.log(recordData);
+
+        /*  await this.fetchSetLanguageGlobalFields();
+         const recordData = await this.fetchGetRecord(recordID);
+         console.log(recordData); */
+        const recordData = this.state.allRecords[recordID];
+
         const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
         const placeholderDefinition = recordData.data[0].fieldData.Placeholder_Definition_view;
         const formattedDefinition = placeholderDefinition.replace(/\n/g, '<br>');
         const tableData = recordData.data[0].portalData.placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER;
+        const previewText = recordData.data[0].fieldData.Search_Input_PlaceholderRemovedText_HTML;
 
         const updatedIsSelected = [];
         for (let i = 0; i < 6; i++) {
@@ -195,7 +249,8 @@ export default class App extends React.Component {
             isSelected: updatedIsSelected,
             placeholderName: placeholderName,
             placeholderDefinition: formattedDefinition,
-            tableData: tableData
+            tableData: tableData,
+            previewText: previewText
         });
     }
 
@@ -263,12 +318,14 @@ export default class App extends React.Component {
                                 recordid={this.state.placeholderRecordIds[5]} />
                         </div>
                         <ResultsList
-                            tableData={this.state.tableData} />
+                            tableData={this.state.tableData}
+                            languageSelected={this.state.languageButtonsSelectedOption} />
                     </div>
                     <div className={Styles.previewDefinitionWrapper}>
 
                         <div className={Styles.resultsPreview}>
-                            <ResultsPreview />
+                            <ResultsPreview
+                                previewText={this.state.previewText} />
                         </div>
                         <div className={Styles.placeholderDefinition}>
                             <PlaceholderDefinition
