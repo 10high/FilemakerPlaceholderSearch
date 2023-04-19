@@ -85,7 +85,7 @@ export default class App extends React.Component {
         this.setState({
             username: username
         })
-        return username;
+        return username
     }
 
     getPassword() {
@@ -93,24 +93,26 @@ export default class App extends React.Component {
         this.setState({
             password: password
         })
-        return password;
+        return password
     }
 
-    async fetchSetGlobalField() {
-        let username = this.state.username;
-        if (!username) {
-            username = this.getUsername()
-        }
-        let password = this.state.password;
-        if (!password) {
-            password = this.getPassword()
-        }
+    checkCredentials() {
+        let credentials = [this.state.username, this.state.password]
+        if (!credentials[0]) credentials[0] = this.getUsername();
+        if (!credentials[1]) credentials[1] = this.getPassword();
+        return credentials
+    }
+
+    async fetchSetAllGlobalFields() {
+        const credentials = this.checkCredentials();
         const searchInput = encodeURIComponent(this.state.searchInputValue)
-        fetch("../../build/php/setGlobalField.php?url=nativeprime-fm.dyndns.org", {
+        fetch("../../build/php/setAllGlobalFields.php?url=nativeprime-fm.dyndns.org", {
             headers: {
-                "User": username,
-                "Password": password,
-                "SearchInput": searchInput
+                "User": credentials[0],
+                "Password": credentials[1],
+                "SearchInput": searchInput,
+                "SourceTarget": this.state.sourceTargetSelectedOption,
+                "Language": this.state.languageButtonsSelectedOption
             }
         })
             .then(response => response.json())
@@ -143,7 +145,7 @@ export default class App extends React.Component {
     }
 
     async handleOnBlur() {
-        await this.fetchSetGlobalField()
+        await this.fetchSetAllGlobalFields()
         const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
         const fetchPlaceholderRecordIDs = await Promise.allSettled(
             placeholderNumbers.map(async number => await this.fetchRunScript(number))
