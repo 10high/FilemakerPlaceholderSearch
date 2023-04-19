@@ -4,12 +4,11 @@ import Styles from "./SourceTarget.module.css";
 export default class SourceTarget extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { selectedOption: "source" };
         this.handleOptionChange = this.handleOptionChange.bind(this);
     }
 
     handleOptionChange(event) {
-        this.setState({ selectedOption: event.target.value });
+        this.props.sourceTargetHandleOptionChange(event.target.value);
     }
 
     render() {
@@ -21,7 +20,7 @@ export default class SourceTarget extends React.Component {
                             type="radio"
                             name="sourceTarget"
                             value="source"
-                            checked={this.state.selectedOption === "source"}
+                            checked={this.props.sourceTargetSelectedOption === "source"}
                             onChange={this.handleOptionChange}
                         />
                         Source
@@ -32,7 +31,7 @@ export default class SourceTarget extends React.Component {
                             type="radio"
                             name="sourceTarget"
                             value="target"
-                            checked={this.state.selectedOption === "target"}
+                            checked={this.props.sourceTargetSelectedOption === "target"}
                             onChange={this.handleOptionChange}
                         />
                         Target

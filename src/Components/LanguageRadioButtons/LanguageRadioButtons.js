@@ -5,12 +5,11 @@ import Styles from "./LanguageRadioButtons.module.css"
 export default class LanguageRadioButtons extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { selectedOption: "German" };
         this.handleOptionChange = this.handleOptionChange.bind(this);
     }
 
     handleOptionChange(event) {
-        this.setState({ selectedOption: event.target.value });
+        this.props.languageButtonsHandleOptionChange(event.target.value);
     }
 
     render() {
@@ -22,7 +21,7 @@ export default class LanguageRadioButtons extends React.Component {
                             type="radio"
                             name="languages"
                             value="French"
-                            checked={this.state.selectedOption === "French"}
+                            checked={this.props.languageButtonsSelectedOption === "French"}
                             onChange={this.handleOptionChange}
                         />
                         French
@@ -33,7 +32,7 @@ export default class LanguageRadioButtons extends React.Component {
                             type="radio"
                             name="languages"
                             value="German"
-                            checked={this.state.selectedOption === "German"}
+                            checked={this.props.languageButtonsSelectedOption === "German"}
                             onChange={this.handleOptionChange}
                         />
                         German
@@ -44,7 +43,7 @@ export default class LanguageRadioButtons extends React.Component {
                             type="radio"
                             name="languages"
                             value="Korean"
-                            checked={this.state.selectedOption === "Korean"}
+                            checked={this.props.languageButtonsSelectedOption === "Korean"}
                             onChange={this.handleOptionChange}
                         />
                         Korean
@@ -55,7 +54,7 @@ export default class LanguageRadioButtons extends React.Component {
                             type="radio"
                             name="languages"
                             value="Russian"
-                            checked={this.state.selectedOption === "Russian"}
+                            checked={this.props.languageButtonsSelectedOption === "Russian"}
                             onChange={this.handleOptionChange}
                         />
                         Russian
@@ -66,7 +65,7 @@ export default class LanguageRadioButtons extends React.Component {
                             type="radio"
                             name="languages"
                             value="Simp Chinese"
-                            checked={this.state.selectedOption === "Simp Chinese"}
+                            checked={this.props.languageButtonsSelectedOption === "Simp Chinese"}
                             onChange={this.handleOptionChange}
                         />
                         Simp Chinese
@@ -77,7 +76,7 @@ export default class LanguageRadioButtons extends React.Component {
                             type="radio"
                             name="languages"
                             value="Spanish"
-                            checked={this.state.selectedOption === "Spanish"}
+                            checked={this.props.languageButtonsSelectedOption === "Spanish"}
                             onChange={this.handleOptionChange}
                         />
                         Spanish

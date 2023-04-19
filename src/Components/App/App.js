@@ -19,12 +19,16 @@ export default class App extends React.Component {
             placeholderRecordIds: [0, 0, 0, 0, 0, 0],
             placeholderName: "",
             placeholderDefinition: "",
-            tableData: []
+            tableData: [],
+            sourceTargetSelectedOption: "source",
+            languageButtonsSelectedOption: "German"
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
         this.handleOnBlur = this.handleOnBlur.bind(this);
         this.updateplaceholdersearchvalue = this.updateplaceholdersearchvalue.bind(this);
+        this.sourceTargetHandleOptionChange = this.sourceTargetHandleOptionChange.bind(this);
+        this.languageButtonsHandleOptionChange = this.languageButtonsHandleOptionChange.bind(this);
     }
 
     extractPlaceholders(input) {
@@ -62,6 +66,19 @@ export default class App extends React.Component {
             isSelected: [false, false, false, false, false, false,]
         })
     }
+
+    sourceTargetHandleOptionChange(option) {
+        this.setState({
+            sourceTargetSelectedOption: option
+        })
+    }
+
+    languageButtonsHandleOptionChange(option) {
+        this.setState({
+            languageButtonsSelectedOption: option
+        })
+    }
+
 
     getUsername() {
         let username = prompt("Please enter your username:");
@@ -196,8 +213,12 @@ export default class App extends React.Component {
                             onBlur={this.handleOnBlur}
                         />
                         <div className={Styles.radioButtons__container}>
-                            <LanguageRadioButtons />
-                            <SourceTarget />
+                            <LanguageRadioButtons
+                                languageButtonsSelectedOption={this.state.languageButtonsSelectedOption}
+                                languageButtonsHandleOptionChange={this.languageButtonsHandleOptionChange} />
+                            <SourceTarget
+                                sourceTargetSelectedOption={this.state.sourceTargetSelectedOption}
+                                sourceTargetHandleOptionChange={this.sourceTargetHandleOptionChange} />
                         </div>
                     </div>
                     <div className={Styles.searchResults__container}>
