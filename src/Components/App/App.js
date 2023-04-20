@@ -14,17 +14,16 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allRecords: {},
+            allRecords: [],
             placeholders: [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]],
             searchInputValue: "Paste your string here",
             isSelected: [false, false, false, false, false, false,],
-            placeholderRecordIds: [0, 0, 0, 0, 0, 0],
             placeholderName: "",
             placeholderDefinitionData: "",
-            tableData: [],
+            resultsListData: {},
             sourceTargetSelectedOption: "source",
             languageButtonsSelectedOption: "German",
-            previewTextData: "",
+            resultsPreview: {},
             selectedPlaceholderPreview: ""
         }
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -45,11 +44,14 @@ export default class App extends React.Component {
 
     handleClearOnClick() {
         this.setState({
+            allRecords: [],
+            placeholderName: "",
             searchInputValue: "Paste your string here",
             placeholders: ["", "", "", "", "", ""],
             placeholderRecordIds: [0, 0, 0, 0, 0, 0],
             placeholderDefinition: "",
-            isSelected: [false, false, false, false, false, false,]
+            isSelected: [false, false, false, false, false, false,],
+            tableData: []
         })
     }
 
@@ -123,7 +125,7 @@ export default class App extends React.Component {
         })
             .then(response => response.json())
             .then(data => {
-                return data.response.response.scriptResult;
+                return JSON.parse(data.response.response.scriptResult);
             })
             .catch(error => {
                 console.error(error);
@@ -143,24 +145,21 @@ export default class App extends React.Component {
         const placeholderRecords = fetchPlaceholderRecords.map(item => item.value);
         console.log(placeholderRecords);
 
-        //const allRecordsAsObject = this needs to separate the records and store each under the RecordID as key 
+        const placeholderValues = placeholderRecords.map(item => item.PlaceholderName)
 
-        //const placeholderValues = This needs to update this.state.placeholders
-
-        /*   this.setState({
-              allRecords: allRecordsAsObject,
-              placeholders: placeholderValues,
-              previewText: "Your preview will be displayed here",
-              placeholderDefinition: "",
-              placeholderName: "",
-              tableData: [],
-              isSelected: [false, false, false, false, false, false,]
-          }) */
+        this.setState({
+            allRecords: placeholderRecords,
+            placeholders: placeholderValues,
+            previewText: "Your preview will be displayed here",
+            placeholderDefinition: "",
+            placeholderName: "",
+            tableData: [],
+            isSelected: [false, false, false, false, false, false,]
+        })
     }
 
 
-
-    updateplaceholdersearchvalue(number, recordID) {
+    updateplaceholdersearchvalue(number) {
 
         const updatedIsSelected = [];
         for (let i = 0; i < 6; i++) {
@@ -171,26 +170,27 @@ export default class App extends React.Component {
             }
         }
 
-        const recordData = this.state.allRecords[recordID];
+        const recordData = this.state.allRecords[number - 1];
 
-        const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
-
-        const placeholderDefinitionData = recordData.data[0].fieldData.Placeholder_Definition_view;
-
-        const tableData = recordData.data[0].portalData.placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER;
-
-        // const previewTextData = This needs to extract the preview TextData for all languages and SourceTarget
-        //The ResultsPreview component will extract the relevant data depending on language and Source Target
-
-
-
+        const placeholderName = recordData.PlaceholderName;
+        const placeholderDefinitionData = recordData.PlaceholderDefinition;
+        const resultsListData = recordData["PortalData:"][0];
+        const resultsPreviewObject = {
+            source: recordData.SearchInputPlaceholderRemovedHTML_English,
+            French: recordData.SearchInputPlaceholderRemovedHTML_French,
+            German: recordData.SearchInputPlaceholderRemovedHTML_German,
+            Korean: recordData.SearchInputPlaceholderRemovedHTML_Korean,
+            Russian: recordData.SearchInputPlaceholderRemovedHTML_Russian,
+            "Simp Chinese": recordData["SearchInputPlaceholderRemovedHTML_Simp Chinese"],
+            Spanish: recordData.SearchInputPlaceholderRemovedHTML_Spanish
+        }
 
         this.setState({
             isSelected: updatedIsSelected,
             placeholderName: placeholderName,
             placeholderDefinitionData: placeholderDefinitionData,
-            tableData: tableData,
-            //  previewText: previewTextData
+            resultsListData: resultsListData,
+            resultsPreview: resultsPreviewObject
         });
     }
 
@@ -228,49 +228,49 @@ export default class App extends React.Component {
                                 placeholder={this.state.placeholders[0]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[0]}
-                                recordid={this.state.placeholderRecordIds[0]} />
+                            />
                             <PlaceholderSearch
                                 number="2"
                                 placeholder={this.state.placeholders[1]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[1]}
-                                recordid={this.state.placeholderRecordIds[1]} />
+                            />
                             <PlaceholderSearch
                                 number="3"
                                 placeholder={this.state.placeholders[2]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[2]}
-                                recordid={this.state.placeholderRecordIds[2]} />
+                            />
                             <PlaceholderSearch
                                 number="4"
                                 placeholder={this.state.placeholders[3]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[3]}
-                                recordid={this.state.placeholderRecordIds[3]} />
+                            />
                             <PlaceholderSearch
                                 number="5"
                                 placeholder={this.state.placeholders[4]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[4]}
-                                recordid={this.state.placeholderRecordIds[4]} />
+                            />
                             <PlaceholderSearch
                                 number="6"
                                 placeholder={this.state.placeholders[5]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[5]}
-                                recordid={this.state.placeholderRecordIds[5]} />
+                            />
                         </div>
                         <ResultsList
-                            tableData={this.state.tableData}
+                            resultsListData={this.state.resultsListData}
                             languageSelected={this.state.languageButtonsSelectedOption} />
                     </div>
                     <div className={Styles.previewDefinitionWrapper}>
 
                         <div className={Styles.resultsPreview}>
                             <ResultsPreview
-                                previewTextData={this.state.previewTextData}
-                                languageSelected={this.state.languageButtonsSelectedOption}
-                                sourceTarget={this.state.sourceTargetSelectedOption} />
+                                resultsPreview={this.state.resultsPreview}
+                                resultsPreviewKey={this.state.sourceTargetSelectedOption === "source" ? "source" : this.state.languageButtonsSelectedOption}
+                            />
                         </div>
                         <div className={Styles.placeholderDefinition}>
                             <PlaceholderDefinition

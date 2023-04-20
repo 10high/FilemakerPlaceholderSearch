@@ -5,27 +5,29 @@ export default class ResultsList extends React.Component {
 
     manageTableDataLanguage(selectedLanguage) {
         const languageOptions = {
-            German: "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_german: New Text",
-            French: "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_french: New Text",
-            Korean: "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_korean: New Text",
-            Russian: "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_russian: New Text",
-            "Simp Chinese": "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_simp_chinese: New Text",
-            Spanish: "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_spanish: New Text"
+            German: "TextGerman",
+            French: "TextFrench",
+            Korean: "TextKorean",
+            Russian: "TextRussian",
+            "Simp Chinese": "TextSimpChinese",
+            Spanish: "TextSpanish"
         }
         const selectedLanguageKey = languageOptions[selectedLanguage];
         return selectedLanguageKey
     }
 
     manageTableData() {
-        let tableData = this.props.tableData;
-        if (tableData.length < 1) {
-            tableData = [{
-                "placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER::LocKey": "",
-                "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: New Text": "",
-                "placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: Filename": ""
-            }]
+        let tableData = this.props.resultsListData;
+        if (!tableData) {
+            tableData = {
+                Row_1: [{
+                    "LocKey": "",
+                    "TextEnglish": "",
+                    "Filename": ""
+                }]
+            }
             const language = this.manageTableDataLanguage(this.props.languageSelected);
-            tableData[0][language] = "";
+            tableData.Row_1[0][language] = "";
         }
         return tableData;
     }
@@ -46,26 +48,18 @@ export default class ResultsList extends React.Component {
                     </thead>
 
                     <tbody className={Styles.table__body}>
-                        {data.map((item, index) => (
-                            <tr className={Styles.table__row} key={index}>
-                                <th scope="row">{item["placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER::LocKey"]}</th>
-                                <td headers="selected language text">{item[language]}</td>
-                                <td headers="english text">{item["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: New Text"]}</td>
-                                <td headers="english filename">{item["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: Filename"]}</td>
-                            </tr>
-                        ))}
+                        {
+                            Object.values(data).map(value => (
+                                <tr className={Styles.table__row} key={value[0].LocKey}>
+                                    <th scope="row">{value[0].LocKey}</th>
+                                    <td headers="selected language text">{value[0][language]}</td>
+                                    <td headers="english text">{value[0].TextEnglish}</td>
+                                    <td headers="english filename">{value[0].Filename}</td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </div>
         )
     }
 }
-
-/* {
-                        <tr className={Styles.table__row}>
-                            <th scope="row">{data[0]["placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER::LocKey"]}</th>
-                            <td headers="german text">{data[0]["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_german: New Text"]}</td>
-                            <td headers="english text">{data[0]["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: New Text"]}</td>
-                            <td headers="english filename">{data[0]["placeholderfromcustomfile_lockeysforcustomplaceholder_EXCELFROMMEMOQ::l_english: Filename"]}</td>
-                        </tr>
-                    } */
