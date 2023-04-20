@@ -1,4 +1,4 @@
-.preview__Wrapper {
+.selectedPlaceholder__Wrapper {
     min-height: 88px;
     background-color: white;
     border-radius: 8px;
@@ -6,9 +6,7 @@
     padding: 8px;
 }
 
-
-
-.preview__text {
+.selectedPlaceholder {
     font-size: 1rem;
     margin: 0;
 }

@@ -3,6 +3,7 @@ import Header from "../Header/Header";
 import LanguageRadioButtons from "../LanguageRadioButtons/LanguageRadioButtons";
 import SearchInput from "../SearchInput/SearchInput";
 import SourceTarget from "../SourceTarget/SourceTarget";
+import SelectedPlaceholder from "../SelectedPlaceholder/SelectedPlaceholder";
 import PlaceholderSearch from "../PlaceholderSearch/PlaceholderSearch";
 import ResultsList from "../ResultsList/ResultsList";
 import ResultsPreview from "../ResultsPreview/ResultsPreview";
@@ -23,7 +24,8 @@ export default class App extends React.Component {
             tableData: [],
             sourceTargetSelectedOption: "source",
             languageButtonsSelectedOption: "German",
-            previewTextData: ""
+            previewTextData: "",
+            selectedPlaceholderPreview: ""
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
@@ -215,6 +217,10 @@ export default class App extends React.Component {
                                 sourceTargetHandleOptionChange={this.sourceTargetHandleOptionChange} />
                         </div>
                     </div>
+
+                    <SelectedPlaceholder
+                        selectedPlaceholderPreview={this.state.selectedPlaceholderPreview} />
+
                     <div className={Styles.searchResults__container}>
                         <div className={Styles.searchResults__placeholderSearchWrapper}>
                             <PlaceholderSearch
