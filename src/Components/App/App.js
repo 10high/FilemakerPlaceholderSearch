@@ -19,11 +19,11 @@ export default class App extends React.Component {
             isSelected: [false, false, false, false, false, false,],
             placeholderRecordIds: [0, 0, 0, 0, 0, 0],
             placeholderName: "",
-            placeholderDefinition: "",
+            placeholderDefinitionData: "",
             tableData: [],
             sourceTargetSelectedOption: "source",
             languageButtonsSelectedOption: "German",
-            previewText: "Your preview text will be displayed here"
+            previewTextData: ""
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
@@ -33,28 +33,10 @@ export default class App extends React.Component {
         this.languageButtonsHandleOptionChange = this.languageButtonsHandleOptionChange.bind(this);
     }
 
-    extractPlaceholders(input) {
-        const initialMatchArr = input.match(/\[[^\]]*\('.*?\)[^\]]*\]/g) || [];
-        const placeholderArr = [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]];
-        for (let i = 0; i < 6; i++) {
-            if (initialMatchArr[i]) {
-                placeholderArr[i][0] = initialMatchArr[i];  //matches [ to ]
-                placeholderArr[i][1] = initialMatchArr[i].match(/\('(\w+)'/)[1]; //matches between ' '
-            } else {
-                for (let j = 0; j < 2; j++) {
-                    placeholderArr[i][j] = "";
-                }
-            }
-        }
-        return placeholderArr;
-    }
-
     handleOnChange(event) {
-        const updatePlaceholders = this.extractPlaceholders(event.target.value);
         this.setState(
             {
-                searchInputValue: event.target.value,
-                placeholders: updatePlaceholders
+                searchInputValue: event.target.value
             }
         )
     }
@@ -127,27 +109,6 @@ export default class App extends React.Component {
             });
     }
 
-    async fetchSetLanguageGlobalFields() {
-        const credentials = this.checkCredentials();
-        fetch("../../build/php/setLanguageGlobalFields.php?url=nativeprime-fm.dyndns.org", {
-            headers: {
-                "User": credentials[0],
-                "Password": credentials[1],
-                "SourceTarget": this.state.sourceTargetSelectedOption,
-                "Language": this.state.languageButtonsSelectedOption
-            }
-        })
-            .then(response => response.json())
-
-            .catch(error => {
-                console.error(error);
-                this.setState({
-                    username: "",
-                    password: ""
-                })
-                alert("Something went wrong!\n\nPerhaps you entered your username or password incorrectly.\nPlease check and enter them again when prompted.\n\nIf the problem persists, please contact Friedrich.")
-            });
-    }
 
     async fetchRunScript(scriptname, placeholderNumber) {
         return fetch("../../build/php/runScript.php?url=nativeprime-fm.dyndns.org", {
@@ -167,73 +128,37 @@ export default class App extends React.Component {
             });
     }
 
-    async fetchGetRecord(recordID) {
-        return fetch("../../build/php/getRecord.php?url=nativeprime-fm.dyndns.org", {
-            headers: {
-                "User": this.state.username,
-                "Password": this.state.password,
-                "RecordID": recordID
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                return data.response.response
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
+
 
     async handleOnBlur() {
         await this.fetchSetSearchGlobalField();
 
         const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
-        const fetchPlaceholderRecordIDs = await Promise.allSettled(
+        const fetchPlaceholderRecords = await Promise.allSettled(
             placeholderNumbers.map(async number => await this.fetchRunScript("Search For extracted Placeholder", number))
         )
-        const updatedPlaceholderRecordIDs = fetchPlaceholderRecordIDs.map(item => item.value);
-        console.log("updatedPLaceholderRecordIDs: ", updatedPlaceholderRecordIDs);
 
-        await this.fetchRunScript("DecodeSearchInputFromURL");
+        const placeholderRecords = fetchPlaceholderRecords.map(item => item.value);
+        console.log(placeholderRecords);
 
-        await this.fetchSetLanguageGlobalFields();
+        //const allRecordsAsObject = this needs to separate the records and store each under the RecordID as key 
 
-        const fetchAllRecords = await Promise.allSettled(
-            updatedPlaceholderRecordIDs.map(async recordId => await this.fetchGetRecord(recordId))
-        )
-        const allRecordsAsArray = fetchAllRecords.map(item => item.value);
-        const allRecordsAsObject = {};
-        allRecordsAsArray.forEach(item => {
-            allRecordsAsObject[item.data[0].recordId] = item;
-        });
-        console.log(allRecordsAsObject);
+        //const placeholderValues = This needs to update this.state.placeholders
 
-
-        this.setState({
-            allRecords: allRecordsAsObject,
-            placeholderRecordIds: updatedPlaceholderRecordIDs,
-            previewText: "Your preview will be displayed here",
-            placeholderDefinition: "",
-            placeholderName: "",
-            tableData: [],
-            isSelected: [false, false, false, false, false, false,]
-        })
+        /*   this.setState({
+              allRecords: allRecordsAsObject,
+              placeholders: placeholderValues,
+              previewText: "Your preview will be displayed here",
+              placeholderDefinition: "",
+              placeholderName: "",
+              tableData: [],
+              isSelected: [false, false, false, false, false, false,]
+          }) */
     }
 
 
 
-    async updateplaceholdersearchvalue(number, recordID) {
-
-        /*  await this.fetchSetLanguageGlobalFields();
-         const recordData = await this.fetchGetRecord(recordID);
-         console.log(recordData); */
-        const recordData = this.state.allRecords[recordID];
-
-        const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
-        const placeholderDefinition = recordData.data[0].fieldData.Placeholder_Definition_view;
-        const formattedDefinition = placeholderDefinition.replace(/\n/g, '<br>');
-        const tableData = recordData.data[0].portalData.placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER;
-        const previewText = recordData.data[0].fieldData.Search_Input_PlaceholderRemovedText_HTML;
+    updateplaceholdersearchvalue(number, recordID) {
 
         const updatedIsSelected = [];
         for (let i = 0; i < 6; i++) {
@@ -244,13 +169,26 @@ export default class App extends React.Component {
             }
         }
 
+        const recordData = this.state.allRecords[recordID];
+
+        const placeholderName = recordData.data[0].fieldData.Placeholder_Name_view;
+
+        const placeholderDefinitionData = recordData.data[0].fieldData.Placeholder_Definition_view;
+
+        const tableData = recordData.data[0].portalData.placeholderfromcustomfile_LOCKEYSFORCUSTOMPLACEHOLDER;
+
+        // const previewTextData = This needs to extract the preview TextData for all languages and SourceTarget
+        //The ResultsPreview component will extract the relevant data depending on language and Source Target
+
+
+
 
         this.setState({
             isSelected: updatedIsSelected,
             placeholderName: placeholderName,
-            placeholderDefinition: formattedDefinition,
+            placeholderDefinitionData: placeholderDefinitionData,
             tableData: tableData,
-            previewText: previewText
+            //  previewText: previewTextData
         });
     }
 
@@ -266,7 +204,6 @@ export default class App extends React.Component {
                             onClick={this.handleClearOnClick}
                             value={this.state.searchInputValue}
                             onChange={this.handleOnChange}
-                            placeholdersearchvalue={this.state.placeholderSearchValue}
                             onBlur={this.handleOnBlur}
                         />
                         <div className={Styles.radioButtons__container}>
@@ -282,37 +219,37 @@ export default class App extends React.Component {
                         <div className={Styles.searchResults__placeholderSearchWrapper}>
                             <PlaceholderSearch
                                 number="1"
-                                placeholder={this.state.placeholders[0][1]}
+                                placeholder={this.state.placeholders[0]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[0]}
                                 recordid={this.state.placeholderRecordIds[0]} />
                             <PlaceholderSearch
                                 number="2"
-                                placeholder={this.state.placeholders[1][1]}
+                                placeholder={this.state.placeholders[1]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[1]}
                                 recordid={this.state.placeholderRecordIds[1]} />
                             <PlaceholderSearch
                                 number="3"
-                                placeholder={this.state.placeholders[2][1]}
+                                placeholder={this.state.placeholders[2]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[2]}
                                 recordid={this.state.placeholderRecordIds[2]} />
                             <PlaceholderSearch
                                 number="4"
-                                placeholder={this.state.placeholders[3][1]}
+                                placeholder={this.state.placeholders[3]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[3]}
                                 recordid={this.state.placeholderRecordIds[3]} />
                             <PlaceholderSearch
                                 number="5"
-                                placeholder={this.state.placeholders[4][1]}
+                                placeholder={this.state.placeholders[4]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[4]}
                                 recordid={this.state.placeholderRecordIds[4]} />
                             <PlaceholderSearch
                                 number="6"
-                                placeholder={this.state.placeholders[5][1]}
+                                placeholder={this.state.placeholders[5]}
                                 updateplaceholdersearchvalue={this.updateplaceholdersearchvalue}
                                 isselected={this.state.isSelected[5]}
                                 recordid={this.state.placeholderRecordIds[5]} />
@@ -325,16 +262,18 @@ export default class App extends React.Component {
 
                         <div className={Styles.resultsPreview}>
                             <ResultsPreview
-                                previewText={this.state.previewText} />
+                                previewTextData={this.state.previewTextData}
+                                languageSelected={this.state.languageButtonsSelectedOption}
+                                sourceTarget={this.state.sourceTargetSelectedOption} />
                         </div>
                         <div className={Styles.placeholderDefinition}>
                             <PlaceholderDefinition
-                                placeholderDefinition={this.state.placeholderDefinition} />
+                                placeholderDefinitionData={this.state.placeholderDefinitionData} />
                         </div>
                     </div>
                     <div className={Styles.placeholderDefinition2}>
                         <PlaceholderDefinition
-                            placeholderDefinition={this.state.placeholderDefinition} />
+                            placeholderDefinitionData={this.state.placeholderDefinitionData} />
                     </div>
 
                 </main>
