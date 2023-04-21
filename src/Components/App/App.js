@@ -171,10 +171,11 @@ export default class App extends React.Component {
         }
 
         const recordData = this.state.allRecords[number - 1];
-
+        console.log(recordData);
         const placeholderName = recordData.PlaceholderName;
         const placeholderDefinitionData = recordData.PlaceholderDefinition;
         const resultsListData = recordData["PortalData:"][0];
+        const selectedPlaceholder = recordData["SearchInputHTML:"];
         const resultsPreviewObject = {
             source: recordData.SearchInputPlaceholderRemovedHTML_English,
             French: recordData.SearchInputPlaceholderRemovedHTML_French,
@@ -190,7 +191,8 @@ export default class App extends React.Component {
             placeholderName: placeholderName,
             placeholderDefinitionData: placeholderDefinitionData,
             resultsListData: resultsListData,
-            resultsPreview: resultsPreviewObject
+            resultsPreview: resultsPreviewObject,
+            selectedPlaceholderPreview: selectedPlaceholder
         });
     }
 
