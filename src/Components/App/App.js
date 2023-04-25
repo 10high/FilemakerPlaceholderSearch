@@ -152,13 +152,17 @@ export default class App extends React.Component {
 
     extractNumberOfPlaceholders() {
         const inputString = this.state.searchInputValue;
-        return inputString.match(/\('(\w+)'/g).length;
+        const matches = inputString.match(/\('(\w+)'/g);
+        return matches ? matches.length : 0;
     }
 
 
     async handleSearchInput() {
         this.clearEverythingElse();
+
         const numberOfMatches = this.extractNumberOfPlaceholders();
+        if (numberOfMatches < 1) return;
+
         const allPlaceholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
         const placeholderNumbers = allPlaceholderNumbers.slice(0, numberOfMatches)
         console.log(placeholderNumbers);
