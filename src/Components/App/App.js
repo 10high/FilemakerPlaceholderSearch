@@ -46,17 +46,31 @@ export default class App extends React.Component {
         )
     }
 
-    handleClearOnClick() {
+    clearSearchInputValue() {
+        this.setState({
+            searchInputValue: "Paste your string here"
+        })
+    }
+
+    clearEverythingElse() {
         this.setState({
             allRecords: [],
-            placeholderName: "",
-            searchInputValue: "Paste your string here",
-            placeholders: ["", "", "", "", "", ""],
-            placeholderRecordIds: [0, 0, 0, 0, 0, 0],
-            placeholderDefinition: "",
+            placeholders: [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]],
             isSelected: [false, false, false, false, false, false,],
-            tableData: []
+            placeholderName: "",
+            placeholderDefinitionData: "",
+            resultsListData: {},
+            resultsPreview: {},
+            selectedPlaceholderPreview: "",
+            parentPlaceholderNameBody: "",
+            parentPlaceholderSuffixBody: "",
+            parentPlaceholderListeLocBody: ""
         })
+    }
+
+    handleClearOnClick() {
+        this.clearSearchInputValue();
+        this.clearEverythingElse();
     }
 
     sourceTargetHandleOptionChange(option) {
@@ -139,6 +153,7 @@ export default class App extends React.Component {
 
 
     async handleSearchInput() {
+        this.clearEverythingElse();
         await this.fetchSetSearchGlobalField();
 
         const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
@@ -153,12 +168,7 @@ export default class App extends React.Component {
 
         this.setState({
             allRecords: placeholderRecords,
-            placeholders: placeholderValues,
-            previewText: "Your preview will be displayed here",
-            placeholderDefinition: "",
-            placeholderName: "",
-            tableData: [],
-            isSelected: [false, false, false, false, false, false,]
+            placeholders: placeholderValues
         })
     }
 
