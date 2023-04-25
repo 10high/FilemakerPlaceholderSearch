@@ -7,6 +7,7 @@ import SelectedPlaceholder from "../SelectedPlaceholder/SelectedPlaceholder";
 import PlaceholderSearch from "../PlaceholderSearch/PlaceholderSearch";
 import ResultsList from "../ResultsList/ResultsList";
 import ResultsPreview from "../ResultsPreview/ResultsPreview";
+import ParentPlaceholder from "../ParentPlaceholder/ParentPlaceholder";
 import PlaceholderDefinition from "../PlaceholderDefinition/PlaceholderDefinition";
 import Styles from "./App.module.css";
 
@@ -24,7 +25,10 @@ export default class App extends React.Component {
             sourceTargetSelectedOption: "source",
             languageButtonsSelectedOption: "German",
             resultsPreview: {},
-            selectedPlaceholderPreview: ""
+            selectedPlaceholderPreview: "",
+            parentPlaceholderNameBody: "",
+            parentPlaceholderSuffixBody: "",
+            parentPlaceholderListeLocBody: ""
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
@@ -185,6 +189,9 @@ export default class App extends React.Component {
             "Simp Chinese": recordData["SearchInputPlaceholderRemovedHTML_Simp Chinese"],
             Spanish: recordData.SearchInputPlaceholderRemovedHTML_Spanish
         }
+        const parentPlaceholderName = recordData.ParentPlaceholderName;
+        const parentPlaceholderSuffix = recordData.ParentPlaceholderSuffix;
+        const parentPlaceholderListLocKeys = recordData.ParentPlaceholderListLocKeys;
 
         this.setState({
             isSelected: updatedIsSelected,
@@ -192,7 +199,10 @@ export default class App extends React.Component {
             placeholderDefinitionData: placeholderDefinitionData,
             resultsListData: resultsListData,
             resultsPreview: resultsPreviewObject,
-            selectedPlaceholderPreview: selectedPlaceholder
+            selectedPlaceholderPreview: selectedPlaceholder,
+            parentPlaceholderNameBody: parentPlaceholderName,
+            parentPlaceholderSuffixBody: parentPlaceholderSuffix,
+            parentPlaceholderListeLocBody: parentPlaceholderListLocKeys
         });
     }
 
@@ -278,12 +288,22 @@ export default class App extends React.Component {
                             <PlaceholderDefinition
                                 placeholderDefinitionData={this.state.placeholderDefinitionData} />
                         </div>
+                        <div className={Styles.parentPlaceholderWrapper}>
+                            <ParentPlaceholder
+                                header="Parent_Placeholder_Name"
+                                body={this.state.parentPlaceholderNameBody} />
+                            <ParentPlaceholder
+                                header="Parent_Placeholder_Suffix"
+                                body={this.state.parentPlaceholderSuffixBody} />
+                            <ParentPlaceholder
+                                header="Parent_Placeholder_ListLocKeys"
+                                body={this.state.parentPlaceholderListeLocBody} />
+                        </div>
                     </div>
                     <div className={Styles.placeholderDefinition2}>
                         <PlaceholderDefinition
                             placeholderDefinitionData={this.state.placeholderDefinitionData} />
                     </div>
-
                 </main>
             </div>
         );

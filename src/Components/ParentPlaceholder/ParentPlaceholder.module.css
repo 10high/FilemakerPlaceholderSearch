@@ -1,0 +1,36 @@
+.parentPlaceholder__Wrapper {
+    min-height: 88px;
+    border-radius: 8px;
+    margin: 8px 0 0 0;
+    padding: 8px;
+}
+
+.parentPlaceholder__HeaderWrapper {
+    display: inline-block;
+    padding: 8px;
+    background-color: var(--header-background-color);
+    border-radius: 8px;
+}
+
+.parentPlaceholder__Header {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-font-color);
+    margin: 0;
+}
+
+.parentPlaceholder__BodyTextWrapper {
+    min-height: 200px;
+    margin: 8px 0 0 0;
+    padding: 16px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: auto;
+}
+
+.parentPlaceholder__BodyText {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--primary-font-color);
+    margin: 0;
+}
