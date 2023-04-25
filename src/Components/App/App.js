@@ -32,7 +32,7 @@ export default class App extends React.Component {
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
-        this.handleOnBlur = this.handleOnBlur.bind(this);
+        this.handleSearchInput = this.handleSearchInput.bind(this);
         this.updateplaceholdersearchvalue = this.updateplaceholdersearchvalue.bind(this);
         this.sourceTargetHandleOptionChange = this.sourceTargetHandleOptionChange.bind(this);
         this.languageButtonsHandleOptionChange = this.languageButtonsHandleOptionChange.bind(this);
@@ -138,7 +138,7 @@ export default class App extends React.Component {
 
 
 
-    async handleOnBlur() {
+    async handleSearchInput() {
         await this.fetchSetSearchGlobalField();
 
         const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
@@ -215,10 +215,10 @@ export default class App extends React.Component {
                 <main className={Styles.app__main}>
                     <div className={Styles.searchInput__container}>
                         <SearchInput
-                            onClick={this.handleClearOnClick}
+                            onClickSearch={this.handleSearchInput}
+                            onClickClear={this.handleClearOnClick}
                             value={this.state.searchInputValue}
                             onChange={this.handleOnChange}
-                            onBlur={this.handleOnBlur}
                         />
                         <div className={Styles.radioButtons__container}>
                             <LanguageRadioButtons
