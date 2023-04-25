@@ -150,13 +150,22 @@ export default class App extends React.Component {
             });
     }
 
+    extractNumberOfPlaceholders() {
+        const inputString = this.state.searchInputValue;
+        return inputString.match(/\('(\w+)'/g).length;
+    }
 
 
     async handleSearchInput() {
         this.clearEverythingElse();
+        const numberOfMatches = this.extractNumberOfPlaceholders();
+        const allPlaceholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
+        const placeholderNumbers = allPlaceholderNumbers.slice(0, numberOfMatches)
+        console.log(placeholderNumbers);
+
         await this.fetchSetSearchGlobalField();
 
-        const placeholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
+
         const fetchPlaceholderRecords = await Promise.allSettled(
             placeholderNumbers.map(async number => await this.fetchRunScript("Search For extracted Placeholder", number))
         )
