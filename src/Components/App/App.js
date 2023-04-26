@@ -155,7 +155,24 @@ export default class App extends React.Component {
     extractNumberOfPlaceholders() {
         const inputString = this.state.searchInputValue;
         const matches = inputString.match(/\('(\w+)'/g);
+        console.log("This is placeholder matches from extractNumberof PLaceholders", matches);
         return matches ? matches.length : 0;
+    }
+
+    async runScripts(placeholderNumbers) {
+        const fetchPlaceholderRecords = await Promise.allSettled(
+            placeholderNumbers.map(async number => await this.fetchRunScript("Search For extracted Placeholder", number))
+        )
+
+        const placeholderRecords = fetchPlaceholderRecords.map(item => item.value);
+        console.log("This is all records returned by initial searchinput fetch", placeholderRecords)
+
+        const placeholderValues = placeholderRecords.map(item => item.PlaceholderName)
+
+        this.setState({
+            allRecords: placeholderRecords,
+            placeholders: placeholderValues
+        })
     }
 
 
@@ -171,18 +188,10 @@ export default class App extends React.Component {
         await this.fetchSetSearchGlobalField();
 
 
-        const fetchPlaceholderRecords = await Promise.allSettled(
-            placeholderNumbers.map(async number => await this.fetchRunScript("Search For extracted Placeholder", number))
-        )
+        setTimeout(() => {
+            this.runScripts(placeholderNumbers)
+        }, 500)
 
-        const placeholderRecords = fetchPlaceholderRecords.map(item => item.value);
-
-        const placeholderValues = placeholderRecords.map(item => item.PlaceholderName)
-
-        this.setState({
-            allRecords: placeholderRecords,
-            placeholders: placeholderValues
-        })
     }
 
 
