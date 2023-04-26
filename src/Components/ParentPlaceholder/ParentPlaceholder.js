@@ -16,10 +16,12 @@ export default class ParentPlaceholder extends React.Component {
                                 <p className={Styles.parentPlaceholder__BodyText}>
                                     {this.props.body}
                                 </p> :
-                                <ul className={Styles.parentPlaceholder__BodyText}>
-                                    {this.props.list.map((item, index) => (
-                                        <li key={index}>{item}</li>
-                                    ))}
+                                <ul className={Styles.parentPlaceholder__List}>
+                                    {this.props.list ?
+                                        this.props.list.map((item, index) => (
+                                            <li key={index}>{item}</li>
+                                        )) :
+                                        <li></li>}
                                 </ul>
                         }
                     </div>

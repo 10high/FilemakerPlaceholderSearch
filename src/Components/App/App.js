@@ -111,7 +111,9 @@ export default class App extends React.Component {
 
     async fetchSetSearchGlobalField() {
         const credentials = this.checkCredentials();
+        console.log("This is the searchINput before encoding", this.state.searchInputValue)
         const searchInput = encodeURIComponent(this.state.searchInputValue)
+        console.log("This is the searchINput after encoding", searchInput)
         fetch("../../build/php/setSearchGlobalField.php?url=nativeprime-fm.dyndns.org", {
             headers: {
                 "User": credentials[0],
@@ -164,8 +166,7 @@ export default class App extends React.Component {
         if (numberOfMatches < 1) return;
 
         const allPlaceholderNumbers = ["first", "second", "third", "fourth", "fifth", "sixth"];
-        const placeholderNumbers = allPlaceholderNumbers.slice(0, numberOfMatches)
-        console.log(placeholderNumbers);
+        const placeholderNumbers = allPlaceholderNumbers.slice(0, numberOfMatches);
 
         await this.fetchSetSearchGlobalField();
 
@@ -175,7 +176,6 @@ export default class App extends React.Component {
         )
 
         const placeholderRecords = fetchPlaceholderRecords.map(item => item.value);
-        console.log(placeholderRecords);
 
         const placeholderValues = placeholderRecords.map(item => item.PlaceholderName)
 
@@ -215,7 +215,6 @@ export default class App extends React.Component {
         const parentPlaceholderName = recordData.ParentPlaceholderName;
         const parentPlaceholderSuffix = recordData.ParentPlaceholderSuffix;
         const parentPlaceholderListLocKeys = () => recordData.ParentPlaceholderListLocKeys.match(/[^\r]+/g);
-        console.log(parentPlaceholderListLocKeys())
 
         this.setState({
             isSelected: updatedIsSelected,
