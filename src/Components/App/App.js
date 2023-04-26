@@ -16,7 +16,7 @@ export default class App extends React.Component {
         super(props);
         this.state = {
             allRecords: [],
-            placeholders: [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]],
+            placeholders: [],
             searchInputValue: "Paste your string here",
             isSelected: [false, false, false, false, false, false,],
             placeholderName: "",
@@ -26,9 +26,9 @@ export default class App extends React.Component {
             languageButtonsSelectedOption: "German",
             resultsPreview: {},
             selectedPlaceholderPreview: "",
-            parentPlaceholderNameBody: " ",
-            parentPlaceholderSuffixBody: " ",
-            parentPlaceholderListeLocBody: [" "]
+            parentPlaceholderNameBody: "",
+            parentPlaceholderSuffixBody: "",
+            parentPlaceholderListeLocBody: []
         }
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClearOnClick = this.handleClearOnClick.bind(this);
@@ -55,16 +55,16 @@ export default class App extends React.Component {
     clearEverythingElse() {
         this.setState({
             allRecords: [],
-            placeholders: [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]],
+            placeholders: [],
             isSelected: [false, false, false, false, false, false,],
             placeholderName: "",
             placeholderDefinitionData: "",
             resultsListData: {},
             resultsPreview: {},
             selectedPlaceholderPreview: "",
-            parentPlaceholderNameBody: " ",
-            parentPlaceholderSuffixBody: " ",
-            parentPlaceholderListeLocBody: [" "]
+            parentPlaceholderNameBody: "",
+            parentPlaceholderSuffixBody: "",
+            parentPlaceholderListeLocBody: []
         })
     }
 

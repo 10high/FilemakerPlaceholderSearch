@@ -27,7 +27,7 @@ export default class PlaceholderSearch extends React.Component {
                     <p className={this.props.isselected ?
                         this.state.style.textColorSelected :
                         this.state.style.textColorNotSelected}>
-                        {this.props.placeholder}</p>
+                        {this.props.placeholder ? this.props.placeholder : ""}</p>
                 </div>
                 <button className={Styles.section__button}
                     type="button"
