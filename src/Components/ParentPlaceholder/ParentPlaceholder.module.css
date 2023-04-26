@@ -33,4 +33,14 @@
     font-weight: 400;
     color: var(--primary-font-color);
     margin: 0;
+    list-style-type: none;
+}
+
+.parentPlaceholder__List {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--primary-font-color);
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
