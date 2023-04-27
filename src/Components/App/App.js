@@ -111,9 +111,7 @@ export default class App extends React.Component {
 
     async fetchSetSearchGlobalField() {
         const credentials = this.checkCredentials();
-        console.log("This is the searchINput before encoding", this.state.searchInputValue)
         const searchInput = encodeURIComponent(this.state.searchInputValue)
-        console.log("This is the searchINput after encoding", searchInput)
         fetch("../../build/php/setSearchGlobalField.php?url=nativeprime-fm.dyndns.org", {
             headers: {
                 "User": credentials[0],
@@ -134,12 +132,11 @@ export default class App extends React.Component {
     }
 
 
-    async fetchRunScript(scriptname, placeholderNumber) {
+    async fetchRunScript(placeholderNumber) {
         return fetch("../../build/php/runScript.php?url=nativeprime-fm.dyndns.org", {
             headers: {
                 "User": this.state.username,
                 "Password": this.state.password,
-                "ScriptName": scriptname,
                 "PlaceholderNumber": placeholderNumber
             }
         })
@@ -155,17 +152,15 @@ export default class App extends React.Component {
     extractNumberOfPlaceholders() {
         const inputString = this.state.searchInputValue;
         const matches = inputString.match(/\('(\w+)'/g);
-        console.log("This is placeholder matches from extractNumberof PLaceholders", matches);
         return matches ? matches.length : 0;
     }
 
     async runScripts(placeholderNumbers) {
         const fetchPlaceholderRecords = await Promise.allSettled(
-            placeholderNumbers.map(async number => await this.fetchRunScript("Search For extracted Placeholder", number))
+            placeholderNumbers.map(async number => await this.fetchRunScript(number))
         )
 
         const placeholderRecords = fetchPlaceholderRecords.map(item => item.value);
-        console.log("This is all records returned by initial searchinput fetch", placeholderRecords)
 
         const placeholderValues = placeholderRecords.map(item => item.PlaceholderName)
 
@@ -207,7 +202,6 @@ export default class App extends React.Component {
         }
 
         const recordData = this.state.allRecords[number - 1];
-        console.log(recordData);
         const placeholderName = recordData.PlaceholderName;
         const placeholderDefinitionData = recordData.PlaceholderDefinition;
         const resultsListData = recordData["PortalData:"][0];
