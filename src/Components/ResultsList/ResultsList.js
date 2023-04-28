@@ -3,6 +3,7 @@ import Styles from "./ResultsList.module.css";
 
 export default class ResultsList extends React.Component {
 
+    //returns the required language object key 
     manageTableDataLanguage(selectedLanguage) {
         const languageOptions = {
             German: "TextGerman",
@@ -18,6 +19,7 @@ export default class ResultsList extends React.Component {
 
     manageTableData() {
         let tableData = this.props.resultsListData;
+        //If !tableData => returns empty strings
         if (!tableData) {
             tableData = {
                 Row_1: [{
@@ -26,12 +28,15 @@ export default class ResultsList extends React.Component {
                     "Filename": ""
                 }]
             }
+            //Also if !TableData => sets selected language as empty 
             const language = this.manageTableDataLanguage(this.props.languageSelected);
             tableData.Row_1[0][language] = "";
         }
         return tableData;
     }
 
+    //builds table based on results returned from Filemaker.
+    //The language results displayed depend on selected language option
     render() {
         const data = this.manageTableData();
         const language = this.manageTableDataLanguage(this.props.languageSelected);

@@ -3,6 +3,8 @@ import Styles from "./ParentPlaceholder.module.css"
 
 export default class ParentPlaceholder extends React.Component {
 
+    //If props "body" is passed in, displays text as is. 
+    //If props "list" is passed in, displays array as list
     render() {
         return (
             <div className={Styles.parentPlaceholder__Wrapper}>

@@ -38,6 +38,7 @@ export default class App extends React.Component {
         this.languageButtonsHandleOptionChange = this.languageButtonsHandleOptionChange.bind(this);
     }
 
+    //Sent from SearchInput TextArea onChange (Passed in as prop)
     handleOnChange(event) {
         this.setState(
             {
@@ -68,17 +69,20 @@ export default class App extends React.Component {
         })
     }
 
+    //Sent from SearchInput Clear Button (passed in as prop)
     handleClearOnClick() {
         this.clearSearchInputValue();
         this.clearEverythingElse();
     }
 
+    //sent from SourceTarget (passed in as prop)
     sourceTargetHandleOptionChange(option) {
         this.setState({
             sourceTargetSelectedOption: option
         })
     }
 
+    //sent from LanguageRadioButtons (passed in as prop)
     languageButtonsHandleOptionChange(option) {
         this.setState({
             languageButtonsSelectedOption: option
@@ -149,6 +153,8 @@ export default class App extends React.Component {
             });
     }
 
+    //Extracts the placeholders but result is used only as reference array 
+    //to loop over when sending runScripts()
     extractNumberOfPlaceholders() {
         const inputString = this.state.searchInputValue;
         const matches = inputString.match(/\('(\w+)'/g);
@@ -170,7 +176,7 @@ export default class App extends React.Component {
         })
     }
 
-
+    //Sent from SearchInput Search Button (Passed in as prop)
     async handleSearchInput() {
         this.clearEverythingElse();
 
@@ -182,7 +188,9 @@ export default class App extends React.Component {
 
         await this.fetchSetSearchGlobalField();
 
-
+        //This delay is "necessary", requested by client to account for calculations performed by Filemaker
+        //after SearchInput Textarea is updated. If the scripts here run too soon, can result in Filemaker 
+        //returning nonsense
         setTimeout(() => {
             this.runScripts(placeholderNumbers)
         }, 500)
@@ -190,8 +198,8 @@ export default class App extends React.Component {
     }
 
 
+    //Sent from SelectedPlaceholder Search Button (Passed in as prop)
     updateplaceholdersearchvalue(number) {
-
         const updatedIsSelected = [];
         for (let i = 0; i < 6; i++) {
             if (i === number - 1) {
@@ -217,6 +225,7 @@ export default class App extends React.Component {
         }
         const parentPlaceholderName = recordData.ParentPlaceholderName;
         const parentPlaceholderSuffix = recordData.ParentPlaceholderSuffix;
+        //Extracts list of items separated by \r into array to pass to ParentPLaceholder
         const parentPlaceholderListLocKeys = () => recordData.ParentPlaceholderListLocKeys.match(/[^\r]+/g);
 
         this.setState({
@@ -307,6 +316,7 @@ export default class App extends React.Component {
                         <div className={Styles.resultsPreview}>
                             <ResultsPreview
                                 resultsPreview={this.state.resultsPreview}
+                                //Passes in object key, which is either "source" or the name of the language
                                 resultsPreviewKey={this.state.sourceTargetSelectedOption === "source" ? "source" : this.state.languageButtonsSelectedOption}
                             />
                         </div>
@@ -317,12 +327,15 @@ export default class App extends React.Component {
                         <div className={Styles.parentPlaceholderWrapper}>
                             <ParentPlaceholder
                                 header="Parent_Placeholder_Name"
+                                //Passes normal text
                                 body={this.state.parentPlaceholderNameBody} />
                             <ParentPlaceholder
                                 header="Parent_Placeholder_Suffix"
+                                //passes normal text
                                 body={this.state.parentPlaceholderSuffixBody} />
                             <ParentPlaceholder
                                 header="Parent_Placeholder_ListLocKeys"
+                                //passes text separated by \r
                                 list={this.state.parentPlaceholderListeLocBody} />
                         </div>
                     </div>
