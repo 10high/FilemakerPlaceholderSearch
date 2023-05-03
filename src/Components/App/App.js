@@ -116,7 +116,7 @@ export default class App extends React.Component {
     async fetchSetSearchGlobalField() {
         const credentials = this.checkCredentials();
         const searchInput = encodeURIComponent(this.state.searchInputValue)
-        fetch("../../build/php/setSearchGlobalField.php?url=nativeprime-fm.dyndns.org", {
+        fetch("./php/setSearchGlobalField.php?url=nativeprime-fm.dyndns.org", {
             headers: {
                 "User": credentials[0],
                 "Password": credentials[1],
@@ -137,7 +137,7 @@ export default class App extends React.Component {
 
 
     async fetchRunScript(placeholderNumber) {
-        return fetch("../../build/php/runScript.php?url=nativeprime-fm.dyndns.org", {
+        return fetch("./php/runScript.php?url=nativeprime-fm.dyndns.org", {
             headers: {
                 "User": this.state.username,
                 "Password": this.state.password,
